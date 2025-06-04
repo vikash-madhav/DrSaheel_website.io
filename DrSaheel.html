@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Saheel's Urology Practice</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #334155; /* Darker text for readability */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .hero-section {
+            background-color: #e0f2fe; /* Light blue background for hero */
+            background-size: cover;
+            background-position: center;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3); /* Slightly softer shadow for text */
+            padding: 6rem 1rem; /* Adjusted padding for overall section */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px; /* Ensure a minimum height for the hero section */
+        }
+        /* Custom styles for better aesthetics */
+        .btn-primary {
+            @apply px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out;
+        }
+        .card {
+            @apply bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out;
+        }
+        .section-heading {
+            @apply text-4xl font-bold text-center text-blue-800 mb-12;
+        }
+        .nav-link {
+            @apply block px-4 py-2 text-gray-700 hover:text-blue-600 transition duration-200 ease-in-out rounded-md;
+        }
+        /* Specific style for the "Urology Care" title to mimic the image */
+        .urology-title {
+            font-size: 6rem; /* Large font size */
+            font-weight: 900; /* Extra bold */
+            color: #0369a1; /* Dark blue color from the previous image text */
+            line-height: 1; /* Tight line height */
+            margin-bottom: 1rem; /* Space below it */
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.4); /* Stronger shadow for this title */
+        }
+
+        /* Calendar specific styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .calendar-day {
+            @apply p-2 text-center rounded-md cursor-pointer;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .calendar-day.current-month {
+            @apply bg-gray-100 text-gray-800 hover:bg-blue-200;
+        }
+        .calendar-day.selected {
+            @apply bg-blue-600 text-white font-bold;
+        }
+        .calendar-day.disabled {
+            @apply bg-gray-50 text-gray-400 cursor-not-allowed;
+        }
+        .time-slot {
+            @apply px-4 py-2 bg-blue-100 text-blue-800 rounded-md cursor-pointer hover:bg-blue-200 transition duration-200 ease-in-out;
+        }
+        .time-slot.selected-slot {
+            @apply bg-blue-700 text-white font-bold;
+        }
+
+        @media (max-width: 767px) {
+            .urology-title {
+                font-size: 3rem; /* Smaller font size on mobile */
+            }
+            .hero-section {
+                min-height: 400px;
+            }
+            .calendar-day {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        @media (min-width: 768px) {
+            .nav-link {
+                @apply inline-block;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container flex justify-between items-center">
+            <!-- Logo/Site Title -->
+            <a href="#" class="text-2xl font-bold text-blue-800 rounded-md">Dr. Saheel's Urology Practice</a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path>
+                </svg>
+            </button>
+
+            <!-- Navigation Menu (Desktop) -->
+            <nav id="main-nav" class="hidden md:flex space-x-4">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#patient-info" class="nav-link">Patient Information</a>
+                <a href="#contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
+
+        <!-- Mobile Navigation Menu (Hidden by default) -->
+        <nav id="mobile-nav" class="md:hidden hidden bg-gray-50 py-2 mt-2">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about" class="nav-link">About Us</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#patient-info" class="nav-link">Patient Information</a>
+            <a href="#contact" class="nav-link">Contact Us</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section text-center rounded-b-lg">
+        <div class="container">
+            <h1 class="urology-title">Urology Care</h1>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-blue-800">Expert Care for Your Health</h2>
+            <p class="text-lg md:text-xl mb-8 text-blue-700">Dedicated to providing compassionate and comprehensive urological services.</p>
+            <a href="#contact" class="btn-primary">Book an Appointment</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-white rounded-lg shadow-inner mx-4 my-8">
+        <div class="container">
+            <h2 class="section-heading">About Dr. Saheel and Our Practice</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/600x400/a78bfa/ffffff?text=Dr.+Saheel+Photo" alt="Dr. Saheel" class="w-full h-auto object-cover rounded-lg shadow-md">
+                </div>
+                <div class="md:w-1/2 text-lg leading-relaxed text-gray-700">
+                    <p class="mb-4">Welcome to Dr. Saheel's Urology Practice, where we are committed to delivering the highest standard of urological care. Dr. Saheel is a highly experienced and compassionate consultant urologist dedicated to diagnosing and treating a wide range of urological conditions.</p>
+                    <p class="mb-4">With a focus on patient-centered care, we utilize the latest advancements in medical technology and treatment methodologies to ensure optimal outcomes. Our practice is built on a foundation of trust, respect, and a deep understanding of our patients' needs.</p>
+                    <p>Dr. Saheel believes in a holistic approach to patient well-being, providing personalized treatment plans and clear communication every step of the way. We aim to make your experience as comfortable and reassuring as possible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-blue-50 rounded-lg shadow-inner mx-4 my-8">
+        <div class="container">
+            <h2 class="section-heading">Our Comprehensive Urology Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1: Men's Health -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Men's Health</h3>
+                    <p class="text-gray-600 mb-4">We offer specialized care for a variety of male urological conditions, focusing on diagnosis, treatment, and long-term management.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Prostate Conditions (BPH, Prostate Cancer)</li>
+                        <li>Erectile Dysfunction</li>
+                        <li>Male Infertility</li>
+                        <li>Vasectomy & Reversal</li>
+                        <li>Testicular Pain & Lumps</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+
+                <!-- Service Card 2: Women's Health -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Women's Health</h3>
+                    <p class="text-gray-600 mb-4">Dedicated to addressing unique urological issues affecting women, ensuring comfort and effective solutions.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Urinary Incontinence</li>
+                        <li>Recurrent UTIs</li>
+                        <li>Bladder Pain Syndrome</li>
+                        <li>Pelvic Organ Prolapse</li>
+                        <li>Kidney Stones in Women</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+
+                <!-- Service Card 3: Paediatric Urology -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Paediatric Urology</h3>
+                    <p class="text-gray-600 mb-4">Gentle and expert care for urological conditions in children, from infancy through adolescence.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Bedwetting (Enuresis)</li>
+                        <li>Undescended Testes</li>
+                        <li>Vesicoureteral Reflux (VUR)</li>
+                        <li>Urinary Tract Infections in Children</li>
+                        <li>Congenital Anomalies</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+
+                <!-- Service Card 4: Kidney & Bladder Conditions -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Kidney & Bladder Conditions</h3>
+                    <p class="text-gray-600 mb-4">Diagnosis and treatment for various conditions affecting the kidneys and bladder for all ages.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Kidney Stones</li>
+                        <li>Bladder Cancer</li>
+                        <li>Overactive Bladder</li>
+                        <li>Interstitial Cystitis</li>
+                        <li>Kidney Cysts</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+
+                <!-- Service Card 5: Urological Cancers -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Urological Cancers</h3>
+                    <p class="text-gray-600 mb-4">Comprehensive care for urological cancers, including early detection, advanced treatment, and follow-up.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Prostate Cancer</li>
+                        <li>Bladder Cancer</li>
+                        <li>Kidney Cancer</li>
+                        <li>Testicular Cancer</li>
+                        <li>Adrenal Tumors</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+
+                <!-- Service Card 6: General Urology & Procedures -->
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">General Urology & Procedures</h3>
+                    <p class="text-gray-600 mb-4">A wide array of general urological services and surgical procedures.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Cystoscopy</li>
+                        <li>Ureteroscopy</li>
+                        <li>Circumcision</li>
+                        <li>Hydrocele Repair</li>
+                        <li>Urinary Tract Infections (UTIs)</li>
+                    </ul>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Information Section -->
+    <section id="patient-info" class="py-16 bg-white rounded-lg shadow-inner mx-4 my-8">
+        <div class="container">
+            <h2 class="section-heading">Patient Information & Resources</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg text-gray-700">
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Frequently Asked Questions (FAQs)</h3>
+                    <p class="mb-4">Find answers to common questions about appointments, insurance, what to expect during your visit, and more.</p>
+                    <a href="#" class="text-blue-600 hover:underline">View FAQs →</a>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Patient Forms</h3>
+                    <p class="mb-4">Download and complete necessary patient forms prior to your appointment to save time during your visit.</p>
+                    <a href="#" class="text-blue-600 hover:underline">Download Forms →</a>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Patient Testimonials</h3>
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                        <p class="italic mb-2">"Dr. Saheel provided exceptional care and made me feel at ease throughout my treatment. Highly recommended!"</p>
+                        <p class="text-right font-medium">- Satisfied Patient, [City Name]</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-md mt-4">
+                        <p class="italic mb-2">"The staff at Dr. Saheel's practice are incredibly kind and professional. I received excellent care."</p>
+                        <p class="text-right font-medium">- Another Happy Patient, [City Name]</p>
+                    </div>
+                    <a href="#" class="text-blue-600 hover:underline mt-4 block">Read More Testimonials →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-blue-50 rounded-lg shadow-inner mx-4 my-8">
+        <div class="container">
+            <h2 class="section-heading">Contact Us & Book an Appointment</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Contact Information -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Get in Touch</h3>
+                    <p class="text-lg text-gray-700 mb-2"><strong>Address:</strong> [Practice Address Line 1], [Practice Address Line 2], [City], [Postcode]</p>
+                    <p class="text-lg text-gray-700 mb-2"><strong>Phone:</strong> <a href="tel:[Your Phone Number]" class="text-blue-600 hover:underline">[Your Phone Number]</a></p>
+                    <p class="text-lg text-gray-700 mb-4"><strong>Email:</strong> <a href="mailto:[Your Email]" class="text-blue-600 hover:underline">[Your Email]</a></p>
+
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4 mt-8">Clinic Hours</h3>
+                    <p class="text-lg text-gray-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                    <p class="text-lg text-gray-700">Saturday - Sunday: Closed</p>
+
+                    <!-- Map Placeholder -->
+                    <div class="mt-8 rounded-lg overflow-hidden shadow-md">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.003584325785!2d-0.12758499999999998!3d51.5072178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26967%3A0x4291f3172409ea0!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                            width="100%"
+                            height="300"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Appointment Booking Form -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Book Your Appointment</h3>
+                    <form class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
+                            <input type="text" id="name" name="name" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your Name">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address:</label>
+                            <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your.email@example.com">
+                        </div>
+                        <div class="mb-4">
+                            <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                            <input type="tel" id="phone" name="phone" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., +44 1234 567890">
+                        </div>
+                        <div class="mb-4">
+                            <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Reason for Appointment:</label>
+                            <textarea id="reason" name="reason" rows="5" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Briefly describe your reason for visit..."></textarea>
+                        </div>
+
+                        <!-- Calendar and Time Slot Selection -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Select Date & Time:</label>
+                            <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                                <div class="flex justify-between items-center mb-4">
+                                    <button type="button" id="prevMonth" class="text-blue-600 hover:text-blue-800 font-bold">&lt; Prev</button>
+                                    <h4 id="currentMonthYear" class="text-lg font-semibold text-blue-800"></h4>
+                                    <button type="button" id="nextMonth" class="text-blue-600 hover:text-blue-800 font-bold">Next &gt;</button>
+                                </div>
+                                <div class="calendar-grid text-sm font-medium text-gray-600 mb-2">
+                                    <div class="text-center">Sun</div>
+                                    <div class="text-center">Mon</div>
+                                    <div class="text-center">Tue</div>
+                                    <div class="text-center">Wed</div>
+                                    <div class="text-center">Thu</div>
+                                    <div class="text-center">Fri</div>
+                                    <div class="text-center">Sat</div>
+                                </div>
+                                <div id="calendarDays" class="calendar-grid">
+                                    <!-- Calendar days will be rendered here by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div id="availableSlotsContainer" class="mt-6 hidden">
+                                <h4 class="text-lg font-semibold text-blue-800 mb-3">Available Slots for <span id="selectedDateText"></span>:</h4>
+                                <div id="timeSlots" class="flex flex-wrap gap-3">
+                                    <!-- Time slots will be rendered here by JavaScript -->
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedDateTime" name="selectedDateTime">
+                        </div>
+
+                        <button type="submit" class="btn-primary w-full">Submit Appointment Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-8 rounded-t-lg">
+        <div class="container text-center">
+            <div class="flex flex-col md:flex-row justify-center items-center md:space-x-8 mb-4">
+                <a href="#home" class="text-gray-300 hover:text-white transition duration-200 mb-2 md:mb-0">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-white transition duration-200 mb-2 md:mb-0">About Us</a>
+                <a href="#services" class="text-gray-300 hover:text-white transition duration-200 mb-2 md:mb-0">Services</a>
+                <a href="#contact" class="text-gray-300 hover:text-white transition duration-200">Contact Us</a>
+            </div>
+            <p class="text-gray-400">© 2025 Dr. Saheel's Urology Practice. All rights reserved.</p>
+            <p class="text-gray-400 text-sm mt-2">Designed with care by At Home Developers</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileNav.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after clicking a link
+                if (!mobileNav.classList.contains('hidden')) {
+                    mobileNav.classList.add('hidden');
+                }
+            });
+        });
+
+        // Calendar and Time Slot Logic
+        const calendarDays = document.getElementById('calendarDays');
+        const currentMonthYear = document.getElementById('currentMonthYear');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const availableSlotsContainer = document.getElementById('availableSlotsContainer');
+        const selectedDateText = document.getElementById('selectedDateText');
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        const selectedDateTimeInput = document.getElementById('selectedDateTime');
+
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // Simulate available slots (can be replaced with actual API call)
+        const simulatedAvailableSlots = {
+            // Example: 'YYYY-MM-DD': ['HH:MM', 'HH:MM']
+            '2025-07-10': ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM'],
+            '2025-07-11': ['09:30 AM', '10:30 AM', '01:00 PM', '04:00 PM'],
+            '2025-07-15': ['10:00 AM', '11:00 AM', '12:00 PM'],
+            '2025-08-01': ['09:00 AM', '10:00 AM', '11:00 AM'],
+            '2025-08-05': ['02:00 PM', '03:00 PM', '04:00 PM'],
+        };
+
+        function renderCalendar() {
+            calendarDays.innerHTML = ''; // Clear previous days
+            const date = new Date(currentYear, currentMonth, 1);
+            const firstDayIndex = date.getDay(); // 0 for Sunday, 1 for Monday, etc.
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate(); // Last day of current month
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate(); // Last day of previous month
+
+            currentMonthYear.textContent = new Date(currentYear, currentMonth).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            // Fill leading empty days from previous month
+            for (let i = firstDayIndex; i > 0; i--) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day', 'disabled');
+                day.textContent = prevMonthLastDay - i + 1;
+                calendarDays.appendChild(day);
+            }
+
+            // Fill current month days
+            for (let i = 1; i <= lastDay; i++) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day', 'current-month');
+                day.textContent = i;
+                day.dataset.date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+
+                // Highlight selected date if it matches
+                if (selectedDate && selectedDate.toDateString() === new Date(currentYear, currentMonth, i).toDateString()) {
+                    day.classList.add('selected');
+                }
+
+                day.addEventListener('click', () => selectDate(day));
+                calendarDays.appendChild(day);
+            }
+        }
+
+        function selectDate(dayElement) {
+            // Remove 'selected' class from previously selected day
+            const previouslySelected = document.querySelector('.calendar-day.selected');
+            if (previouslySelected) {
+                previouslySelected.classList.remove('selected');
+            }
+
+            // Add 'selected' class to the clicked day
+            dayElement.classList.add('selected');
+            const dateString = dayElement.dataset.date;
+            selectedDate = new Date(dateString); // Store as Date object
+
+            selectedDateText.textContent = selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            displayAvailableSlots(dateString);
+            availableSlotsContainer.classList.remove('hidden');
+
+            // Clear previously selected time slot
+            selectedTime = null;
+            selectedDateTimeInput.value = '';
+        }
+
+        function displayAvailableSlots(dateString) {
+            timeSlotsContainer.innerHTML = '';
+            const slots = simulatedAvailableSlots[dateString] || [];
+
+            if (slots.length === 0) {
+                timeSlotsContainer.innerHTML = '<p class="text-gray-600">No available slots for this date.</p>';
+            } else {
+                slots.forEach(slot => {
+                    const slotElement = document.createElement('div');
+                    slotElement.classList.add('time-slot');
+                    slotElement.textContent = slot;
+                    slotElement.dataset.time = slot; // Store time in dataset
+                    slotElement.addEventListener('click', () => selectTimeSlot(slotElement));
+                    timeSlotsContainer.appendChild(slotElement);
+                });
+            }
+        }
+
+        function selectTimeSlot(slotElement) {
+            // Remove 'selected-slot' from previously selected time slot
+            const previouslySelected = document.querySelector('.time-slot.selected-slot');
+            if (previouslySelected) {
+                previouslySelected.classList.remove('selected-slot');
+            }
+
+            // Add 'selected-slot' to the clicked time slot
+            slotElement.classList.add('selected-slot');
+            selectedTime = slotElement.dataset.time;
+
+            // Update the hidden input with selected date and time
+            if (selectedDate && selectedTime) {
+                const formattedDate = selectedDate.toISOString().split('T')[0]; // YYYY-MM-DD
+                selectedDateTimeInput.value = `${formattedDate} ${selectedTime}`;
+            }
+        }
+
+        prevMonthBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+            availableSlotsContainer.classList.add('hidden'); // Hide slots when month changes
+            selectedDate = null; // Reset selected date
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+            availableSlotsContainer.classList.add('hidden'); // Hide slots when month changes
+            selectedDate = null; // Reset selected date
+        });
+
+        // Initial render
+        renderCalendar();
+    </script>
+</body>
+</html>
